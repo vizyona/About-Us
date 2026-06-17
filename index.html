@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hakkımızda Kökten</title>
+    <style>
+        body { background-color: #121212; color: #e0e0e0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; line-height: 1.6; margin: 0; padding: 40px 20px; display: flex; justify-content: center; }
+        .container { max-width: 800px; background-color: #1e1e1e; padding: 40px; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.3); }
+        h1 { color: #1E88E5; border-bottom: 2px solid #1E88E5; padding-bottom: 10px; }
+        h2 { color: #66BB6A; margin-top: 30px; }
+        .date { font-size: 0.9em; color: #888; margin-bottom: 30px; }
+        ul { padding-left: 20px; }
+        li { margin-bottom: 10px; }
+        
+        /* Seslendirme Butonu */
+        #speak-btn { 
+            background: #1E88E5; border: none; padding: 10px 20px; color: white; 
+            cursor: pointer; border-radius: 5px; font-weight: bold; margin-bottom: 20px; 
+            transition: 0.3s;
+        }
+        #speak-btn:hover { background: #1565C0; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <button id="speak-btn" onclick="toggleSpeech()">🔊 Sesli Dinle</button>
+
+    <h1>KÖKTEN HAKKIMIZDA</h1>
+    <p class="date">Kuruluş: Haziran 2026</p>
+
+    <h2>Vizyonumuz</h2>
+    <p>Kökten - Dijital Kurultay, dijital dünyada "köklü" bir iletişimin mümkün olduğuna inananların buluşma noktasıdır. Karmaşadan uzak, saf fikirlerin paylaşıldığı, teknolojinin insanı yormak yerine güçlendirdiği bir "dijital kurultay" alanı inşa ettik.</p>
+
+    <h2>Misyonumuz</h2>
+    <p>Sade, güvenli ve hızlı. Modern arayüzlerin altında, topluluk bilincini merkeze alan bir altyapı sunuyoruz. Dijitalleşen dünyada, bireylerin birbirini gerçekten duyabildiği ve fikirlerini hiçbir engele takılmadan paylaşabildiği bir ortam yaratmak en büyük gayemizdir.</p>
+
+    <h2>Neden Kökten?</h2>
+    <ul>
+        <li><strong>Sadelik:</strong> Gereksiz hiçbir arayüz unsuru barındırmaz, sadece içeriğe odaklanır.</li>
+        <li><strong>Güvenlik:</strong> Verileriniz şifrelenir, gizliliğiniz bir numaralı önceliğimizdir.</li>
+        <li><strong>Hız:</strong> En zorlu ağ şartlarında bile düşük gecikmeli, kesintisiz iletişim.</li>
+    </ul>
+    
+    <p>Biz, dijital dünyadaki köklerimizi unutmadan, geleceği bugünden inşa ediyoruz. Kurultayımız herkese açık, kurallarımız herkesin iyiliği için.</p>
+</div>
+
+<script>
+    let isSpeaking = false;
+    function toggleSpeech() {
+        const btn = document.getElementById('speak-btn');
+        if (isSpeaking) {
+            window.speechSynthesis.cancel();
+            isSpeaking = false;
+            btn.textContent = "🔊 Sesli Dinle";
+            return;
+        }
+
+        // Sadece metin içeriğini al (buton metnini değil)
+        const text = document.querySelector('.container').innerText.replace("🔊 Sesli Dinle", "");
+        const utterance = new SpeechSynthesisUtterance(text);
+        
+        utterance.lang = 'tr-TR';
+        utterance.rate = 1.0;
+        
+        utterance.onend = () => {
+            isSpeaking = false;
+            btn.textContent = "🔊 Sesli Dinle";
+        };
+
+        window.speechSynthesis.speak(utterance);
+        isSpeaking = true;
+        btn.textContent = "⏹️ Durdur";
+    }
+</script>
+
+</body>
+</html>
